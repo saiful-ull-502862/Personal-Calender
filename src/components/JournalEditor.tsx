@@ -30,6 +30,7 @@ export default function JournalEditor({ initialTitle = '', initialContent = '', 
                 class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl dark:prose-invert mx-auto focus:outline-none min-h-[300px] text-foreground',
             },
         },
+        immediatelyRender: false,
     });
 
     const handleSave = async () => {
