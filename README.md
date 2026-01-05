@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PhD Research Calendar & Journal
+
+A comprehensive web-based application combining calendar scheduling with an integrated research journal for PhD work tracking.
+
+## Features
+
+- **Multi-view Calendar**: Hourly, daily, weekly, monthly views using `react-big-calendar`.
+- **Research Journal**: Rich text editor (Tiptap) with markdown support, tags, and search.
+- **Dashboard**: Quick view of today's schedule, recent journal entries, and progress metrics.
+- **Modern UI**: Clean, minimalist interface with glassmorphism, dark/light mode, and responsive design.
+- **Local Database**: Powered by SQLite for easy setup and data privacy.
+
+## Tech Stack
+
+- **Framework**: Next.js 15+ (App Router)
+- **Database**: SQLite with Prisma ORM
+- **Styling**: Tailwind CSS
+- **Components**: Framer Motion, Lucide React
+- **Calendar**: React Big Calendar
+- **Editor**: Tiptap
 
 ## Getting Started
 
-First, run the development server:
+1.  **Install Dependencies**:
+    ```bash
+    npm install
+    ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2.  **Setup Database**:
+    The project uses SQLite by default. The database file `dev.db` will be created automatically.
+    
+    To push the schema:
+    ```bash
+    npx prisma db push
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3.  **Run Development Server**:
+    ```bash
+    npm run dev
+    ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+- `src/app`: Page routes and layouts
+- `src/components`: Reusable UI components (Sidebar, CalendarWrapper, JournalEditor)
+- `src/lib`: Utility functions and database client
+- `prisma`: Database schema and configuration
 
-To learn more about Next.js, take a look at the following resources:
+## Contributing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[MIT](https://choosealicense.com/licenses/mit/)
