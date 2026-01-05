@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  start       DateTime
+  end         DateTime
+  allDay      Boolean  @default(false)
+  category    String   // 'research', 'class', 'meeting', 'deadline', 'experiment'
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  journalEntries JournalEntry[]
+}
+
+model JournalEntry {
+  id          String   @id @default(uuid())
+  title       String
+  content     String   // HTML content
+  date        DateTime @default(now())
+  tags        String   // Comma separated tags
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  events      Event[]
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
