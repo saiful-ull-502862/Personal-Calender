@@ -79,3 +79,78 @@ export async function updateJournalEntry(id: string, data: { title?: string; con
     revalidatePath('/');
     return entry;
 }
+
+// Papers
+
+export async function getAllPapers() {
+    return await prisma.paper.findMany({
+        orderBy: { createdAt: 'desc' }
+    });
+}
+
+export async function getPaper(id: string) {
+    return await prisma.paper.findUnique({
+        where: { id }
+    });
+}
+
+export async function createPaper(data: {
+    title: string;
+    authors?: string;
+    year?: number;
+    status: string;
+    link?: string;
+}) {
+    const paper = await prisma.paper.create({
+        data
+    });
+    revalidatePath('/papers');
+    revalidatePath('/');
+    return paper;
+}
+
+export async function updatePaper(id: string, data: {
+    title?: string;
+    authors?: string;
+    year?: number;
+    status?: string;
+    link?: string;
+    summary?: string;
+}) {
+    const paper = await prisma.paper.update({
+        where: { id },
+        data
+    });
+    revalidatePath(`/papers/${id}`);
+    revalidatePath('/papers');
+    revalidatePath('/');
+    return paper;
+}
+
+// Dashboard Stats
+
+export async function getDashboardStats() {
+    const papersRead = await prisma.paper.count({ where: { status: 'Read' } });
+    const experiments = await prisma.event.count({ where: { category: 'experiment' } }) +
+        await prisma.journalEntry.count({ where: { tags: { contains: 'experiment' } } });
+
+    // Simple goal tracking: just counts for now, could be more complex later
+    const goalsTotal = 10; // Placeholder
+    const goalsCompleted = papersRead; // Just a proxy for now
+
+    const upcomingDeadlines = await prisma.event.count({
+        where: {
+            category: 'deadline',
+            start: {
+                gte: new Date()
+            }
+        }
+    });
+
+    return {
+        papersRead,
+        experiments,
+        goalsProgress: Math.min(Math.round((goalsCompleted / goalsTotal) * 100), 100),
+        upcomingDeadlines
+    };
+}

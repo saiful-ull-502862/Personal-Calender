@@ -1,7 +1,10 @@
-import { getEvents, getRecentJournalEntries } from "./actions";
+import { getEvents, getRecentJournalEntries, getDashboardStats } from "./actions";
 import { format } from "date-fns";
 import Link from "next/link";
 import { Plus, Clock, BookOpen, FileText, FlaskConical, Target, AlertCircle } from "lucide-react";
+
+// Force dynamic rendering to ensure stats are up-to-date
+export const dynamic = 'force-dynamic';
 
 export default async function Dashboard() {
   const today = new Date();
@@ -13,6 +16,7 @@ export default async function Dashboard() {
 
   const todaysEvents = await getEvents(startOfDay, endOfDay);
   const recentEntries = await getRecentJournalEntries(3);
+  const stats = await getDashboardStats();
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-5 duration-700">
@@ -35,26 +39,26 @@ export default async function Dashboard() {
 
       {/* Quick Metrics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="glass-card p-5 flex flex-col items-center justify-center text-center hover:scale-105 transition-transform duration-200 cursor-pointer border-l-4 border-l-blue-500">
+        <Link href="/papers" className="glass-card p-5 flex flex-col items-center justify-center text-center hover:scale-105 transition-transform duration-200 cursor-pointer border-l-4 border-l-blue-500">
           <FileText className="w-8 h-8 text-blue-500 mb-2 opacity-80" />
-          <div className="text-2xl font-bold">12</div>
+          <div className="text-2xl font-bold">{stats.papersRead}</div>
           <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Papers Read</div>
-        </div>
-        <div className="glass-card p-5 flex flex-col items-center justify-center text-center hover:scale-105 transition-transform duration-200 cursor-pointer border-l-4 border-l-pink-500">
+        </Link>
+        <Link href="/journal?search=experiment" className="glass-card p-5 flex flex-col items-center justify-center text-center hover:scale-105 transition-transform duration-200 cursor-pointer border-l-4 border-l-pink-500">
           <FlaskConical className="w-8 h-8 text-pink-500 mb-2 opacity-80" />
-          <div className="text-2xl font-bold">4</div>
+          <div className="text-2xl font-bold">{stats.experiments}</div>
           <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Experiments</div>
-        </div>
-        <div className="glass-card p-5 flex flex-col items-center justify-center text-center hover:scale-105 transition-transform duration-200 cursor-pointer border-l-4 border-l-green-500">
+        </Link>
+        <div className="glass-card p-5 flex flex-col items-center justify-center text-center hover:scale-105 transition-transform duration-200 border-l-4 border-l-green-500">
           <Target className="w-8 h-8 text-green-500 mb-2 opacity-80" />
-          <div className="text-2xl font-bold">85%</div>
+          <div className="text-2xl font-bold">{stats.goalsProgress}%</div>
           <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Goal Progress</div>
         </div>
-        <div className="glass-card p-5 flex flex-col items-center justify-center text-center hover:scale-105 transition-transform duration-200 cursor-pointer border-l-4 border-l-orange-500">
+        <Link href="/calendar" className="glass-card p-5 flex flex-col items-center justify-center text-center hover:scale-105 transition-transform duration-200 cursor-pointer border-l-4 border-l-orange-500">
           <AlertCircle className="w-8 h-8 text-orange-500 mb-2 opacity-80" />
-          <div className="text-2xl font-bold">2</div>
-          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Deadlines</div>
-        </div>
+          <div className="text-2xl font-bold">{stats.upcomingDeadlines}</div>
+          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Future Deadlines</div>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

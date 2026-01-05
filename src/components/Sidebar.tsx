@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Calendar, BookOpen, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Calendar, BookOpen, Settings, FileText } from "lucide-react";
 import clsx from "clsx";
 
 const navItems = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Calendar", href: "/calendar", icon: Calendar },
   { name: "Journal", href: "/journal", icon: BookOpen },
+  { name: "Papers", href: "/papers", icon: FileText },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
@@ -44,13 +45,6 @@ export default function Sidebar() {
             );
           })}
         </ul>
-        
-        <div className="absolute bottom-4 left-0 w-full px-3">
-             <button className="flex items-center p-2 w-full text-foreground rounded-lg hover:bg-muted transition-colors group">
-                <LogOut className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition duration-75" />
-                <span className="ms-3">Log Out</span>
-            </button>
-        </div>
       </div>
     </aside>
   );

@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -30,6 +31,18 @@ model JournalEntry {
   updatedAt   DateTime @updatedAt
 
   events      Event[]
+}
+
+model Paper {
+  id          String   @id @default(uuid())
+  title       String
+  authors     String?
+  year        Int?
+  status      String   @default("To Read") // 'Read', 'Reading', 'To Read'
+  link        String?  // Link to Google Drive/Doc
+  summary     String?  // HTML content
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Notification {
