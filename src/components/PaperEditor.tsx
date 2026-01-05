@@ -126,12 +126,33 @@ export default function PaperEditor({ initialData, onSave }: PaperEditorProps) {
             <div className="space-y-2">
                 <label className="text-lg font-bold">Summary & Notes</label>
                 <div className="glass-card flex items-center justify-between p-2 sticky top-4 z-10">
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 items-center">
                         <button onClick={() => editor?.chain().focus().toggleBold().run()} className={`p-2 rounded-lg hover:bg-muted transition-colors ${editor?.isActive('bold') ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}><Bold size={20} /></button>
                         <button onClick={() => editor?.chain().focus().toggleItalic().run()} className={`p-2 rounded-lg hover:bg-muted transition-colors ${editor?.isActive('italic') ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}><Italic size={20} /></button>
                         <div className="w-px h-6 bg-border mx-1 self-center" />
                         <button onClick={() => editor?.chain().focus().toggleBulletList().run()} className={`p-2 rounded-lg hover:bg-muted transition-colors ${editor?.isActive('bulletList') ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}><List size={20} /></button>
                         <button onClick={() => editor?.chain().focus().toggleOrderedList().run()} className={`p-2 rounded-lg hover:bg-muted transition-colors ${editor?.isActive('orderedList') ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}><ListOrdered size={20} /></button>
+                        <div className="w-px h-6 bg-border mx-1 self-center" />
+                        <button
+                            type="button"
+                            onClick={() => {
+                                if (editor?.isEmpty || window.confirm('This will overwrite current content. Continue?')) {
+                                    editor?.commands.setContent(`
+                                        <h3>🎯 Core Contribution</h3>
+                                        <p>What is the main problem and solution?</p>
+                                        <h3>🔬 Methodology</h3>
+                                        <p>How did they do it?</p>
+                                        <h3>📊 Key Results</h3>
+                                        <p>What were the findings?</p>
+                                        <h3>💭 Thoughts & Critiques</h3>
+                                        <p>My personal take...</p>
+                                    `)
+                                }
+                            }}
+                            className="px-3 py-1.5 text-xs font-medium bg-secondary/10 text-secondary hover:bg-secondary/20 rounded-lg transition-colors ml-2 whitespace-nowrap"
+                        >
+                            + Use Template
+                        </button>
                     </div>
                 </div>
 
